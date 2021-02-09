@@ -2,7 +2,7 @@
 
 ## A BEDMAS Quiz Maker
 
-The quiz maker will make a small math quiz for K-grade3 that will also be saved as a pdf.
+# Phase 1
 
 ## Task 2
 Q. What will this application do?
@@ -14,4 +14,12 @@ A. Parents, Tutors, Teachers.
 
 Q. Why is this project of interest to you? 
 A. I tutor my landlord's kids that are learning basic math right now, so this tool will be useful in making
-quizes for them.
+quizzes for them.
+
+## Task 3
+User Stories:
+
+1. As a user, I want to be able to add multiple Expression into a Quiz
+2. As a user, I want to be able to output the Quiz into a pdf
+3. As a user, I want to be able to reset the Quiz into an empty one
+4. As a user, I want to be able to differentiate between vertical or horizontal expressions
