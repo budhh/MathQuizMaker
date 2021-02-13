@@ -19,7 +19,7 @@ quizzes for them.
 ## Task 3
 User Stories:
 
-1. As a user, I want to be able to add multiple Expression into a Quiz
+1. As a user, I want to be able to add multiple Problems into a Quiz
 2. As a user, I want to be able to output the Quiz into a pdf
 3. As a user, I want to be able to reset the Quiz into an empty one
-4. As a user, I want to be able to differentiate between vertical or horizontal expressions
+4. As a user, I want to be able to see problem = answer
