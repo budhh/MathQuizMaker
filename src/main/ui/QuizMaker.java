@@ -18,7 +18,7 @@ public class QuizMaker {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes input, and processes input
+    // EFFECTS: initializes input, sets numProblems, sets typeOfProblems, sets a new quiz, and prints out quiz+answers
     private void runQuizMaker() {
         input = new Scanner(System.in);
 

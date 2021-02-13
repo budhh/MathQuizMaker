@@ -20,6 +20,12 @@ quizzes for them.
 User Stories:
 
 1. As a user, I want to be able to add multiple Problems into a Quiz
-2. As a user, I want to be able to output the Quiz into a pdf
-3. As a user, I want to be able to reset the Quiz into an empty one
-4. As a user, I want to be able to see problem = answer
+2. As a user, I want to be able to decide what type of problems it adds(+, -, +-)
+3. As a user, I want to be able to randomly use operators if multiple are entered.
+4. As a user, I want to be able to see the answer to the problem.
+
+## Task 4
+Completed
+
+## Task 5
+Completed
