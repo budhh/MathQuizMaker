@@ -29,3 +29,14 @@ Completed
 
 ## Task 5
 Completed
+
+# Phase 2
+
+## Task 1
+Complete
+
+## Task 2
+User Stories:
+
+1. As a user, I want to be able to save the number and type of questions produced as a preset.
+2. As a user, I want to be able to load a preset.

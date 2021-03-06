@@ -30,7 +30,7 @@ public class Quiz {
     }
 
     // EFFECTS: returns quiz
-    public ArrayList<Problem> getQuiz() {
+    public ArrayList<Problem> getQuiz()     {
         return quiz;
     }
 }
