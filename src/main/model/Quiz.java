@@ -1,8 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
-public class Quiz {
+public class Quiz implements Writable {
     ArrayList<Problem> quiz;
     int numProblems;
     String typeOfProblems;
@@ -32,5 +35,18 @@ public class Quiz {
     // EFFECTS: returns quiz
     public ArrayList<Problem> getQuiz()     {
         return quiz;
+    }
+
+    // EFFECTS: returns the type of problems
+    public String getTypeOfProblems() {
+        return typeOfProblems;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("numOfProblems", numProblems);
+        json.put("typeOfProblems", typeOfProblems);
+        return json;
     }
 }
