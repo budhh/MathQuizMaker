@@ -32,6 +32,14 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
+    // EFFECTS: writes JSON representation of Quiz to file
+    public void write(int numOfProblems, String typeOfProblems) {
+        Quiz quiz = new Quiz(numOfProblems, typeOfProblems);
+        JSONObject json = quiz.toJson();
+        saveToFile(json.toString(TAB));
+    }
+
+    // MODIFIES: this
     // EFFECTS: closes writer
     public void close() {
         writer.close();

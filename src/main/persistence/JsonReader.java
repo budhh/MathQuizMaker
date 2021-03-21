@@ -37,11 +37,25 @@ public class JsonReader {
     }
 
     // EFFECTS: parses quiz from JSON object and returns it
-    private Quiz parseQuiz(JSONObject jsonObject) {
+    public Quiz parseQuiz(JSONObject jsonObject) {
         int num = jsonObject.getInt("numOfProblems");
         String type = jsonObject.getString("typeOfProblems");
 
         Quiz quiz = new Quiz(num, type);
         return quiz;
+    }
+
+    public int parseQuizForInt() throws IOException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        int num = jsonObject.getInt("numOfProblems");
+        return num;
+    }
+
+    public String parseQuizForString() throws IOException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        String type = jsonObject.getString("typeOfProblems");
+        return type;
     }
 }

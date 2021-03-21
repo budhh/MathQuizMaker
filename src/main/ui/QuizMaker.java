@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class QuizMaker {
-    private static final String JSON_STORE = "./data/workroom.json";
+    private static final String JSON_STORE = "./data/quiz.json";
     private Quiz quiz;
     private Scanner input;
     private JsonWriter jsonWriter;
