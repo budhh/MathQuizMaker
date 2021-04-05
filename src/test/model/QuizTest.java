@@ -21,4 +21,15 @@ public class QuizTest {
             //success
         }
     }
+
+    @Test
+    void testWrongTypeAddProblem() {
+        try {
+            Quiz quiz = new Quiz(5, "p");
+            fail();
+        } catch (WrongTypeOfProblemException e) {
+            //success
+        }
+    }
+
 }

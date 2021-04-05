@@ -20,8 +20,10 @@ class ProblemTest {
 
             problem = new Problem(99, 99, "+");
             assertEquals(99 + 99, Integer.parseInt(problem.getAnswer()));
-        } catch (WrongTypeOfProblemException e) {
+
             //success
+        } catch (WrongTypeOfProblemException e) {
+            fail();
         }
     }
 
@@ -39,6 +41,18 @@ class ProblemTest {
 
             problem = new Problem(99, 99, "-");
             assertEquals(0, Integer.parseInt(problem.getAnswer()));
+
+            //success
+        } catch (WrongTypeOfProblemException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testMakeWrongProblem() {
+        try {
+            Problem problem = new Problem(0, 0, "p");
+            fail();
         } catch (WrongTypeOfProblemException e) {
             //success
         }
