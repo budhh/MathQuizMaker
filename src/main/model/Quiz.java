@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.WrongTypeOfProblemException;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -12,7 +13,7 @@ public class Quiz implements Writable {
 
     // REQUIRES: int for num, string for type
     // EFFECTS: runs adds problems which adds problems to quiz
-    public Quiz(int num, String type) {
+    public Quiz(int num, String type) throws WrongTypeOfProblemException {
         quiz = new ArrayList<>();
         numProblems = num;
         typeOfProblems = type;
@@ -21,7 +22,7 @@ public class Quiz implements Writable {
 
     // MODIFIES: quiz
     // EFFECTS: adds problems to quiz in a for loop
-    public void addProblems() {
+    public void addProblems() throws WrongTypeOfProblemException {
         for (int i = 0; i < numProblems; i++) {
             quiz.add(new Problem(typeOfProblems));
         }

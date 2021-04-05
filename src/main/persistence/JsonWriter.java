@@ -1,5 +1,6 @@
 package persistence;
 
+import exceptions.WrongTypeOfProblemException;
 import model.Quiz;
 import org.json.JSONObject;
 
@@ -33,7 +34,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of Quiz to file
-    public void write(int numOfProblems, String typeOfProblems) {
+    public void write(int numOfProblems, String typeOfProblems) throws WrongTypeOfProblemException {
         Quiz quiz = new Quiz(numOfProblems, typeOfProblems);
         JSONObject json = quiz.toJson();
         saveToFile(json.toString(TAB));

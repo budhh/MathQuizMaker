@@ -1,5 +1,6 @@
 package persistence;
 
+import exceptions.WrongTypeOfProblemException;
 import model.Quiz;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class JsonWriterTest {
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
             writer.open();
             fail("IOException was expected");
-        } catch (IOException e) {
+        } catch (IOException | WrongTypeOfProblemException e) {
             // pass
         }
     }
@@ -36,7 +37,7 @@ public class JsonWriterTest {
             assertEquals(quizTest.getQuizSize(), quiz.getQuizSize());
             assertEquals(quizTest.getTypeOfProblems(), quiz.getTypeOfProblems());
 
-        } catch (IOException e) {
+        } catch (IOException | WrongTypeOfProblemException e) {
             fail("Exception should not have been thrown");
         }
     }

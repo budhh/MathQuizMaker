@@ -1,5 +1,6 @@
 package persistence;
 
+import exceptions.WrongTypeOfProblemException;
 import model.Quiz;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class JsonReaderTest {
         try {
             Quiz quiz = reader.read();
             fail("IOException expected");
-        } catch (IOException e) {
+        } catch (IOException | WrongTypeOfProblemException e) {
             // pass
         }
     }
@@ -28,7 +29,7 @@ public class JsonReaderTest {
             Quiz quiz = reader.read();
             assertEquals(5, quiz.getQuizSize());
             assertEquals("+", quiz.getTypeOfProblems());
-        } catch (IOException e) {
+        } catch (IOException | WrongTypeOfProblemException e) {
             fail("Couldn't read from file");
         }
     }

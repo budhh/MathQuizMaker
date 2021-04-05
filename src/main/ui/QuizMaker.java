@@ -1,6 +1,7 @@
 package ui;
 
 
+import exceptions.WrongTypeOfProblemException;
 import model.Problem;
 import model.Quiz;
 import persistence.JsonReader;
@@ -20,7 +21,7 @@ public class QuizMaker {
     private JsonReader jsonReader;
 
     // EFFECTS: runs QuizMaker
-    public QuizMaker() {
+    public QuizMaker() throws WrongTypeOfProblemException {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         runQuizMaker();
@@ -28,7 +29,7 @@ public class QuizMaker {
 
     // MODIFIES: this
     // EFFECTS: initializes input, sets numProblems, sets typeOfProblems, sets a new quiz, and prints out quiz+answers
-    private void runQuizMaker() {
+    private void runQuizMaker() throws WrongTypeOfProblemException {
         boolean keepGoing = true;
         String command = null;
         input = new Scanner(System.in);
@@ -60,7 +61,7 @@ public class QuizMaker {
 
     // MODIFIES: this
     // EFFECTS: processes user command
-    private void processCommand(String command) {
+    private void processCommand(String command) throws WrongTypeOfProblemException {
         if (command.equals("m")) {
             makeQuiz();
         } else if (command.equals("p")) {
@@ -78,7 +79,7 @@ public class QuizMaker {
         try {
             quiz = jsonReader.read();
             System.out.println("Loaded quiz from " + JSON_STORE);
-        } catch (IOException e) {
+        } catch (IOException | WrongTypeOfProblemException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
@@ -107,7 +108,7 @@ public class QuizMaker {
         }
     }
 
-    private void makeQuiz() {
+    private void makeQuiz() throws WrongTypeOfProblemException {
         System.out.println("How many problems do you want?");
         int numProblems = input.nextInt();
 

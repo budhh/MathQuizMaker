@@ -1,5 +1,6 @@
 package ui;
 
+import exceptions.WrongTypeOfProblemException;
 import model.Quiz;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -11,10 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-
-import javax.sound.sampled.*;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
@@ -52,6 +50,7 @@ public class GUI implements ActionListener {
     private ActionListener loadAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            playSound();
             loadFileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); //user.home ./data
             Component parent = new JDialog();
             int result = loadFileChooser.showOpenDialog(parent);
@@ -60,14 +59,10 @@ public class GUI implements ActionListener {
                 String loadFileLocation = selectedFile.getAbsolutePath();
                 JsonReader jsonReader = new JsonReader(loadFileLocation);
                 try {
+                    typeOfProblem = jsonReader.parseQuizForString();
                     numProblems = jsonReader.parseQuizForInt();
                 } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                try {
-                    typeOfProblem = jsonReader.parseQuizForString();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    JOptionPane.showMessageDialog(frame, "Wrong Format");
                 }
                 finishSettingLoadAL();
             }
@@ -77,6 +72,7 @@ public class GUI implements ActionListener {
     private ActionListener saveAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            playSound();
             JFrame parentFrame = new JFrame();
 
             saveFileChooser.setDialogTitle("Specify a file to save");
@@ -87,13 +83,17 @@ public class GUI implements ActionListener {
                 File fileToSave = saveFileChooser.getSelectedFile();
                 String saveFileLocation = fileToSave.getAbsolutePath();
                 JsonWriter jsonWriter = new JsonWriter(saveFileLocation);
-                quiz = new Quiz(numProblems, typeOfProblem);
+                try {
+                    quiz = new Quiz(numProblems, typeOfProblem);
+                } catch (WrongTypeOfProblemException wrongTypeOfProblemException) {
+                    JOptionPane.showMessageDialog(frame, "You Entered An Invalid Type");
+                }
                 try {
                     jsonWriter.open();
                     jsonWriter.write(quiz);
                     jsonWriter.close();
                 } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
+                    JOptionPane.showMessageDialog(frame, "File Not Found Exception");
                 }
             }
         }
@@ -102,23 +102,37 @@ public class GUI implements ActionListener {
     private ActionListener numProblemsAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            numProblemsDisplay = numProblemsField.getText();
-            numProblems = Integer.parseInt(numProblemsField.getText());
-            numProblemsLabel.setText("Enter the Number of Problems: " + numProblemsDisplay);
+
+            try {
+                playSound();
+                numProblems = Integer.parseInt(numProblemsField.getText());
+                numProblemsDisplay = numProblemsField.getText();
+                numProblemsLabel.setText("Enter the Number of Problems: " + numProblemsDisplay);
+            } catch (NumberFormatException numberFormatException) {
+                JOptionPane.showMessageDialog(frame, "Please Enter an Integer");
+            }
         }
     };
     private ActionListener typeOfProblemsAL = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            typeOfProblemsDisplay = typeOfProblemsField.getText();
+            playSound();
             typeOfProblem = typeOfProblemsField.getText();
-            typeOfProblemsLabel.setText("Enter the Type of Problems (+, -, +-): " + typeOfProblemsDisplay);
+
+            if (typeOfProblem.contains("+") || typeOfProblem.contains("-")
+                    || typeOfProblem.contains("*") || typeOfProblem.contains("/")) {
+                typeOfProblemsDisplay = typeOfProblemsField.getText();
+                typeOfProblemsLabel.setText("Enter the Type of Problems (+, -, *, /): " + typeOfProblemsDisplay);
+            } else {
+                typeOfProblemsLabel.setText("Enter the Type of Problems (+, -, *, /): You Entered An Invalid Type");
+                JOptionPane.showMessageDialog(frame, "You Entered An Invalid Type");
+            }
         }
     };
 
     private JButton makeQuizButton = new JButton("MAKE QUIZ");
 
-    public GUI() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public GUI() {
         // Set Up JPanel
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panel.setLayout(new GridLayout(0, 1));
@@ -170,16 +184,25 @@ public class GUI implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        quiz = new Quiz(numProblems, typeOfProblem);
+        try {
+            playSound();
+            quiz = new Quiz(numProblems, typeOfProblem);
 
-        for (int i = 0; i < quiz.getQuizSize(); i++) {
-            String questionsText = quiz.getQuiz().get(i).getProblem();
-            questionsArea.append(questionsText + newLine);
-        }
+            questionsArea.setText("");
+            answersArea.setText("");
 
-        for (int i = 0; i < quiz.getQuizSize(); i++) {
-            String answersText = quiz.getQuiz().get(i).getAnswer();
-            answersArea.append(answersText + newLine);
+            for (int i = 0; i < quiz.getQuizSize(); i++) {
+                String questionsText = quiz.getQuiz().get(i).getProblem();
+
+                questionsArea.append(questionsText + newLine);
+            }
+
+            for (int i = 0; i < quiz.getQuizSize(); i++) {
+                String answersText = quiz.getQuiz().get(i).getAnswer();
+                answersArea.append(answersText + newLine);
+            }
+        } catch (WrongTypeOfProblemException wrongTypeOfProblemException) {
+            JOptionPane.showMessageDialog(frame, "Please Enter The Correct Type Of Problem");
         }
     }
 
@@ -189,7 +212,20 @@ public class GUI implements ActionListener {
         numProblemsField.setText(numProblemsDisplay);
         typeOfProblemsField.setText(typeOfProblem);
         numProblemsLabel.setText("Enter the Number of Problems: " + numProblemsDisplay);
-        typeOfProblemsLabel.setText("Enter the Type of Problems (+, -, +-): " + typeOfProblemsDisplay);
+        typeOfProblemsLabel.setText("Enter the Type of Problems (+, -, *, /): " + typeOfProblemsDisplay);
+    }
+
+    public void playSound() {
+        try {
+            String soundName = "./data/sound.wav";
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
     }
 
 

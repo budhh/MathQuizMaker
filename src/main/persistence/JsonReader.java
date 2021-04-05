@@ -1,5 +1,6 @@
 package persistence;
 
+import exceptions.WrongTypeOfProblemException;
 import model.Quiz;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ public class JsonReader {
 
     // EFFECTS: reads quiz from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public Quiz read() throws IOException {
+    public Quiz read() throws IOException, WrongTypeOfProblemException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseQuiz(jsonObject);
@@ -37,7 +38,7 @@ public class JsonReader {
     }
 
     // EFFECTS: parses quiz from JSON object and returns it
-    public Quiz parseQuiz(JSONObject jsonObject) {
+    public Quiz parseQuiz(JSONObject jsonObject) throws WrongTypeOfProblemException {
         int num = jsonObject.getInt("numOfProblems");
         String type = jsonObject.getString("typeOfProblems");
 
