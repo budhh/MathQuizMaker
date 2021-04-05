@@ -45,3 +45,6 @@ User Stories:
 
 ## Task 2
 The Problem Class is fully robust with ProblemTest checking for pass/fail exceptions.
+
+## Task 3
+If I had to do some refactoring, then I would refactor the GUI Class so that its components are in different classes.
