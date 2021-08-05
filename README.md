@@ -1,5 +1,3 @@
-# CPSC 210 - Personal Project by Abdullah Haroon
-
 ## A BEDMAS Quiz Maker
 
 # Phase 1
